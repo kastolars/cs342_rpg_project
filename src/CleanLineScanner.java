@@ -1,5 +1,3 @@
-import jdk.internal.joptsimple.internal.Strings;
-
 import java.util.Scanner;
 
 public class CleanLineScanner {
@@ -17,5 +15,9 @@ public class CleanLineScanner {
             }
         }
         return line;
+    }
+
+    public static int extractInt(String line){
+        return Integer.valueOf(line.replaceAll("\\D+", ""));
     }
 }

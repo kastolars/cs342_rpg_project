@@ -1,9 +1,6 @@
 public class Move {
-    MoveType type;
-    String argument;
 
-
-    enum MoveType {
+    public void execute(String command){
 
     }
 }
