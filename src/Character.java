@@ -5,13 +5,14 @@ import java.util.TreeMap;
 import static java.lang.Math.random;
 
 public class Character {
-    private int version;
-    private int ID;
-    private String name;
-    private String description;
-    private CharType ct;
+    protected int version;
+    protected int ID;
+    protected String name;
+    protected String description;
     public static HashMap<Integer, Character> characters = new HashMap<Integer, Character>();
-    private HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>();
+    protected HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>();
+    protected Place currentPlace;
+    protected DecisionMaker decisionMaker;
 
     public Character(Scanner sc, int version){
         String line;
@@ -20,7 +21,14 @@ public class Character {
 
         // Character type
         line = CleanLineScanner.getCleanLine(sc);
-        ct = CharType.valueOf(line.replaceAll("\\d", "").trim());
+        String charType = line.replaceAll("\\d", "").trim();
+        if (line.replaceAll("\\d", "").trim().matches("PLAYER")) {
+            decisionMaker = new UI();
+        } else {
+            decisionMaker = new AI();
+        }
+//        ct = CharType.valueOf(line.replaceAll("\\d", "").trim());
+//        if (ct.toString() == )
 
         // Starting location
         placeID = CleanLineScanner.extractInt(line);
@@ -46,6 +54,9 @@ public class Character {
             placeID = (int) Math.random() * (numPlaces - 2);
         }
 
+        // Set current place
+        currentPlace = Place.getPlaceByID(placeID);
+
         // Add character to collections
         Place.getPlaceByID(placeID).addCharacter(this);
         characters.put(ID, this);
@@ -55,26 +66,6 @@ public class Character {
         this.ID = ID;
         this.name = name;
         this.description = desc;
-    }
-
-    private enum CharType{
-        PLAYER("Player"),
-        NPC("NPC");
-
-        private final String type;
-
-        CharType(String type){
-            this.type = type;
-        }
-
-        public String toString(){
-            return type;
-        }
-
-        private boolean match(String s) {
-            return s.matches("(?i)" + type);
-        }
-
     }
 
     public static Character getCharacterByID(int ID){
@@ -97,4 +88,6 @@ public class Character {
     public void addArtifact(Artifact a){
         artifacts.put(a.name(), a);
     }
+
+    public void removeArtifact(Artifact a) { artifacts.remove(a.name());}
 }

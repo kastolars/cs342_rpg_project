@@ -12,8 +12,6 @@ public class Place {
     private ArrayList<Character> characters = new ArrayList<Character>();
     private HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>();
 
-
-
     Place(Scanner sc, int version){
         String line;
         int count, i;

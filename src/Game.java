@@ -39,8 +39,17 @@ public class Game {
         line = CleanLineScanner.getCleanLine(sc);
         numChars = CleanLineScanner.extractInt(line);
 
+        String charType;
+
         // Make characters
         for (i = 0; i < numChars; i++){
+//            line = CleanLineScanner.getCleanLine(sc);
+//            charType = line.replaceAll("\\d", "").trim();
+//            if (charType.matches("PLAYER")){
+//                Player player = new Player(sc, version);
+//            } else {
+//                NPC npc = new NPC(sc, version);
+//            }
             Character c = new Character(sc, version);
         }
 
