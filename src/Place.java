@@ -7,27 +7,26 @@ public class Place {
     private String name;
     private String description;
 
-    public static HashMap<Integer, Place> places = new HashMap<Integer, Place>();
-    private ArrayList<Direction> directions = new ArrayList<Direction>();
-    private ArrayList<Character> characters = new ArrayList<Character>();
-    private HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>();
+    public static HashMap<Integer, Place> places = new HashMap<Integer, Place>(); // Collection for places
+    private ArrayList<Direction> directions = new ArrayList<Direction>(); // Contains all this place's directions
+    private ArrayList<Character> characters = new ArrayList<Character>(); // Contains all this place's characters
+    private HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>(); // Contains all this place's artifacts
 
+    // Constructor for Place class
     Place(Scanner sc, int version){
-        String line;
-        int count, i;
-        description = "";
+        description = ""; // initialize description to empty string
 
         // Get ID and name
-        line = CleanLineScanner.getCleanLine(sc);
+        String line = CleanLineScanner.getCleanLine(sc);
         ID = Integer.valueOf(line.replaceAll("\\D.*", ""));
         name = line.substring(line.indexOf(String.valueOf(ID)) + String.valueOf(ID).length()).trim();
 
         // Get number of description lines
         line = CleanLineScanner.getCleanLine(sc);
-        count = Integer.valueOf(line.replaceAll("\\D.*", ""));
+        int count = Integer.valueOf(line.replaceAll("\\D.*", ""));
 
         // Complete description
-        for (i = 0; i < count; i++){
+        for (int i = 0; i < count; i++){
             description += CleanLineScanner.getCleanLine(sc) + "\n";
         }
 
@@ -35,6 +34,7 @@ public class Place {
         places.put(ID, this);
     }
 
+    // Used to construct nowhere and exit
     Place(int ID, String name, String description){
         this.ID = ID;
         this.name = name;
@@ -94,5 +94,9 @@ public class Place {
     public void display(){
         System.out.println(name);
         System.out.println(description);
+    }
+
+    public boolean isExit(){
+        return ID == 1;
     }
 }

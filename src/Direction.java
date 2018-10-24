@@ -5,25 +5,23 @@ import static java.lang.Math.abs;
 public class Direction {
     private int ID;
     private DirType dir;
-    private Place from;
-    private Place to;
+    private Place source;
+    private Place destination;
     private boolean locked;
     private int lockPattern;
 
     public Direction(Scanner sc, int version){
-        String line;
-        String[] arr;
-        line = CleanLineScanner.getCleanLine(sc);
-        arr = line.split("\\s+");
+        String line = CleanLineScanner.getCleanLine(sc);
+        String[] arr = line.split("\\s+"); // Will contain split up clean line
         ID = Integer.valueOf(arr[0]);
-        int fromID = Integer.valueOf(arr[1]);
-        from = Place.getPlaceByID(fromID);
+        int sourceID = Integer.valueOf(arr[1]);
+        source = Place.getPlaceByID(sourceID);
         dir = DirType.valueOf(arr[2]);
-        int toID = Integer.valueOf(arr[3]);
-        to = Place.getPlaceByID(abs(toID));
-        locked = toID < 0;
+        int destinationID = Integer.valueOf(arr[3]);
+        destination = Place.getPlaceByID(abs(destinationID));
+        locked = destinationID < 0; // locked if ID of destination is negative
         lockPattern = Integer.valueOf(arr[4]);
-        Place.getPlaceByID(fromID).addDirection(this);
+        Place.getPlaceByID(sourceID).addDirection(this);
     }
 
     public void useKey(Artifact a){}
@@ -32,17 +30,17 @@ public class Direction {
         if (locked) {
             throw new LockedDirectionException("Door is locked!");
         } else {
-            return to;
+            return destination;
         }
     }
 
     public void print(){
         System.out.println(String.format("ID: %d", ID));
         System.out.println(String.format("Type: %s", dir.toString()));
-        System.out.println("From: ");
-        from.print();
-        System.out.println("To: ");
-        to.print();
+        System.out.println("Source: ");
+        source.print();
+        System.out.println("Destination: ");
+        destination.print();
         System.out.println(String.format("Locked: %b", locked));
         System.out.println(String.format("Lock Pattern: %d", lockPattern));
     }

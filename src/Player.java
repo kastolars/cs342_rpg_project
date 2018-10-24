@@ -1,10 +1,9 @@
 import java.util.Scanner;
 
 public class Player extends Character {
-    private UI decisionmaker;
+    private UI decisionmaker = new UI();
 
-    public Player(Scanner sc, int version) {
-        super(sc, version);
-        decisionmaker = new UI();
+    public Player(int ID, String name, String desc, int placeID) {
+        super(ID, name, desc, placeID);
     }
 }
