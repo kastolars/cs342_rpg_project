@@ -1,6 +1,19 @@
 public class Move {
     private MoveType type;
-    private String argument;
+    private String[] arguments;
+
+    public Move(String action, String[] arguments) {
+        this.type = MoveType.valueOf(action.toUpperCase());
+        this.arguments = arguments;
+    }
+
+    public String[] getArguments() {
+        return arguments;
+    }
+
+    public MoveType getType() {
+        return type;
+    }
 
     public enum MoveType {
         GO("GO"),
@@ -19,7 +32,5 @@ public class Move {
         }
 
         public String toString() {return action;}
-
-        private boolean match(String s) { return s.matches("(?i)" + action);}
     }
 }

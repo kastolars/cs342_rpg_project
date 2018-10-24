@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Artifact {
@@ -10,18 +11,15 @@ public class Artifact {
     private int keyPattern;
 
     public Artifact(Scanner sc, int version){
-        String line;
-        String[] arr;
-        int placeOrCharID, count, i;
         description = "";
 
         // Location ID
-        line = CleanLineScanner.getCleanLine(sc);
-        placeOrCharID = Integer.valueOf(line);
+        String line = CleanLineScanner.getCleanLine(sc);
+        int placeOrCharID = Integer.valueOf(line);
 
         // Metadata
         line = CleanLineScanner.getCleanLine(sc);
-        arr = line.split("\\s+");
+        String[] arr = line.split("\\s+");
         ID = Integer.valueOf(arr[0]);
         value = Integer.valueOf(arr[1]);
         mobility = Integer.valueOf(arr[2]);
@@ -30,10 +28,10 @@ public class Artifact {
 
         // Lines for description
         line = CleanLineScanner.getCleanLine(sc);
-        count = Integer.valueOf(line);
+        int count = Integer.valueOf(line);
 
         // Description
-        for (i = 0; i < count; i++){
+        for (int i = 0; i < count; i++){
             description += CleanLineScanner.getCleanLine(sc) + "\n";
         }
 
@@ -43,9 +41,11 @@ public class Artifact {
         } else if (placeOrCharID > 0) {
             Place.getPlaceByID(Math.abs(placeOrCharID)).addArtifact(this);
         } else {
-            int numPlaces = Place.places.size();
-            placeOrCharID = (int) Math.random() * (numPlaces - 2);
-            Place.getPlaceByID(placeOrCharID).addArtifact(this);
+            Place p;
+            do {
+                p = (Place) Place.places.values().toArray()[new Random().nextInt(Place.places.size())];
+            } while (p.isExit());
+            p.addArtifact(this);
         }
     }
 

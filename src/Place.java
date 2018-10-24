@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Place {
@@ -60,6 +61,10 @@ public class Place {
         return a;
     }
 
+    public String getRandomArtifact(){
+        return (String) artifacts.keySet().toArray()[new Random().nextInt(artifacts.size())];
+    }
+
     public void addCharacter(Character c){
         characters.add(c);
     }
@@ -83,12 +88,28 @@ public class Place {
         return this;
     }
 
-    public static void printAll(){}
+    public static void printAll(){
+        for (Place p : places.values()){
+
+        }
+    }
 
     public void print(){
         System.out.println(String.format("ID: %d", ID));
         System.out.println(String.format("Name: %s", name));
         System.out.println(String.format("Description: %s", description));
+        System.out.println("Directions: ");
+        for (Direction d : directions){
+            d.print();
+        }
+        System.out.println("Artifacts: ");
+        for (Artifact a : artifacts.values()){
+            a.print();
+        }
+        System.out.println("Characters: ");
+        for (Character c : characters) {
+            c.print();
+        }
     }
 
     public void display(){
@@ -98,5 +119,10 @@ public class Place {
 
     public boolean isExit(){
         return ID == 1;
+    }
+
+    public String getRandomDirection() {
+        Direction d = (Direction) directions.toArray()[new Random().nextInt(directions.size())];
+        return d.getDir();
     }
 }

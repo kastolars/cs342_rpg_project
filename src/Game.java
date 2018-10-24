@@ -38,50 +38,32 @@ public class Game {
         line = CleanLineScanner.getCleanLine(sc);
         int numChars = CleanLineScanner.extractInt(line);
 
-        String charType;
-
         // Create characters
-//        for (int i = 0; i < numChars; i++){
-//            line = sc.next();
-//            charType = line.trim();
-//            if (charType.matches("PLAYER")){
-////                Character c = new Player(sc, version);
-//            } else {
-////                Character c = new NPC(sc, version);
-//            }
-//        }
+        for (int i =0 ; i < numChars; i++){
+            Character c = CharacterFactory.makeCharacter(sc, version);
+        }
 
-        Character c = CharacterFactory.makeCharacter(sc, version);
-        c = CharacterFactory.makeCharacter(sc, version);
-        c = CharacterFactory.makeCharacter(sc, version);
-        c = CharacterFactory.makeCharacter(sc, version);
+        // Get number of artifacts
+        line = CleanLineScanner.getCleanLine(sc);
+        int numArts = CleanLineScanner.extractInt(line);
 
-//        line = CleanLineScanner.getCleanLine(sc);
-//        Character c = new Character(sc, version);
-//        line = CleanLineScanner.getCleanLine(sc);
-//        c = new Character(sc, version);
-//        line = CleanLineScanner.getCleanLine(sc);
-//        c = new Character(sc, version);
-//        line = CleanLineScanner.getCleanLine(sc);
-//        c = new Character(sc, version);
-        return;
-
-
-//
-//        // Get number of artifacts
-//        line = CleanLineScanner.getCleanLine(sc);
-//        int numArts = CleanLineScanner.extractInt(line);
-//
-//        // Make artifacts
-//        for (i = 0; i < numArts; i++){
-//            Artifact a = new Artifact(sc, version);
-//        }
+        // Make Artifacts
+        for (int i = 0; i < numArts; i++){
+            Artifact a = new Artifact(sc, version);
+        }
 
         // close the scanner
-//        sc.close();
+        sc.close();
     }
 
     public void play(){
         System.out.println(String.format("Welcome to %s", name));
+//        for (Character c : Character.characters.values()){
+//            if (c.makeMove()) {
+//                return;
+//            }
+//        }
+
+        Character.characters.get(42).makeMove();
     }
 }

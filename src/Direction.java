@@ -87,6 +87,10 @@ public class Direction {
         }
     }
 
+    public String getDir() {
+        return dir.toString();
+    }
+
     public class LockedDirectionException extends Throwable {
         public LockedDirectionException(String s) {
             System.out.println(s);
