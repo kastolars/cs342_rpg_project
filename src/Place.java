@@ -9,9 +9,11 @@ public class Place {
     private String description;
 
     public static HashMap<Integer, Place> places = new HashMap<Integer, Place>(); // Collection for places
+    public static int firstPlace;
     private ArrayList<Direction> directions = new ArrayList<Direction>(); // Contains all this place's directions
     private ArrayList<Character> characters = new ArrayList<Character>(); // Contains all this place's characters
-    private HashMap<String, Artifact> artifacts = new HashMap<String, Artifact>(); // Contains all this place's artifacts
+    private ArrayList<Artifact> artifacts = new ArrayList<Artifact>(); // Contains all this place's artifacts
+
 
     // Constructor for Place class
     Place(Scanner sc, int version){
@@ -32,6 +34,9 @@ public class Place {
         }
 
         // Add the place to the collection of places.
+        if (places.isEmpty()){
+            firstPlace = ID;
+        }
         places.put(ID, this);
     }
 
@@ -52,17 +57,37 @@ public class Place {
     }
 
     public void addArtifact(Artifact a){
-        artifacts.put(a.name(), a);
+        try {
+            artifacts.add(a);
+        } catch (NullPointerException e){
+            return;
+        }
     }
 
     public Artifact removeArtifactByName(String name){
-        Artifact a = artifacts.get(name);
-        artifacts.remove(name);
-        return a;
+        for (Artifact a : artifacts){
+            if (a.match(name)){
+                if (a.mobility() > -1) {
+                    artifacts.remove(a);
+                    return a;
+                } else {
+                    System.out.println("It won't budge!");
+                }
+            }
+        }
+        return null;
     }
 
-    public String getRandomArtifact(){
-        return (String) artifacts.keySet().toArray()[new Random().nextInt(artifacts.size())];
+    public Artifact getRandomArtifact(){
+        try {
+            Artifact a;
+            do {
+                a = (Artifact) artifacts.toArray()[new Random().nextInt(artifacts.size())];
+            } while (a.mobility() < 0);
+            return a;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public void addCharacter(Character c){
@@ -73,13 +98,17 @@ public class Place {
         characters.remove(c);
     }
 
-    public void useKey(Artifact a){}
+    public void useKey(Artifact a, Character c){
+        for (Direction d : directions){
+            d.useKey(a, c);
+        }
+    }
 
-    public Place followDirection(String s){
+    public Place followDirection(String s, Character c){
         for (Direction d : directions) {
             if (d.match(s)) {
                 try {
-                    return d.follow();
+                    return d.follow(c);
                 } catch (Direction.LockedDirectionException e){
                     return this;
                 }
@@ -90,7 +119,7 @@ public class Place {
 
     public static void printAll(){
         for (Place p : places.values()){
-
+            p.print();
         }
     }
 
@@ -103,7 +132,7 @@ public class Place {
             d.print();
         }
         System.out.println("Artifacts: ");
-        for (Artifact a : artifacts.values()){
+        for (Artifact a : artifacts){
             a.print();
         }
         System.out.println("Characters: ");
@@ -115,6 +144,14 @@ public class Place {
     public void display(){
         System.out.println(name);
         System.out.println(description);
+        if (artifacts.size() < 1){
+            System.out.println("You see no significant artifacts.");
+        } else {
+            System.out.println("Items you see: ");
+            for (Artifact a : artifacts){
+                a.display();
+            }
+        }
     }
 
     public boolean isExit(){
@@ -122,7 +159,11 @@ public class Place {
     }
 
     public String getRandomDirection() {
-        Direction d = (Direction) directions.toArray()[new Random().nextInt(directions.size())];
-        return d.getDir();
+        try {
+            Direction d = (Direction) directions.toArray()[new Random().nextInt(directions.size())];
+            return d.getDir();
+        } catch (IllegalArgumentException e) {
+            return "";
+        }
     }
 }

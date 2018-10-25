@@ -1,14 +1,16 @@
+import java.util.Arrays;
+
 public class Move {
     private MoveType type;
-    private String[] arguments;
+    private String argument;
 
-    public Move(String action, String[] arguments) {
+    public Move(String action, String argument) {
         this.type = MoveType.valueOf(action.toUpperCase());
-        this.arguments = arguments;
+        this.argument = argument;
     }
 
-    public String[] getArguments() {
-        return arguments;
+    public String getArgument() {
+        return argument;
     }
 
     public MoveType getType() {

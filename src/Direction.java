@@ -24,11 +24,22 @@ public class Direction {
         Place.getPlaceByID(sourceID).addDirection(this);
     }
 
-    public void useKey(Artifact a){}
+    public void useKey(Artifact a, Character c){
+        if (a.getKeyPattern() == lockPattern){
+            locked = !locked;
+            if (c instanceof  Player){
+                System.out.println("Key works!");
+            }
+        } else {
+            if ( c instanceof Player){
+                System.out.println("That doesn't work here.");
+            }
+        }
+    }
 
-    public Place follow() throws LockedDirectionException {
+    public Place follow(Character c) throws LockedDirectionException {
         if (locked) {
-            throw new LockedDirectionException("Door is locked!");
+            throw new LockedDirectionException("Door is locked!", c);
         } else {
             return destination;
         }
@@ -92,8 +103,10 @@ public class Direction {
     }
 
     public class LockedDirectionException extends Throwable {
-        public LockedDirectionException(String s) {
-            System.out.println(s);
+        public LockedDirectionException(String s, Character c) {
+            if ( c instanceof Player){
+                System.out.println(s);
+            }
         }
     }
 }

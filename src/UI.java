@@ -5,11 +5,11 @@ public class UI implements DecisionMaker {
 
     @Override
     public Move getMove(Character c, Place p) {
-        c.currentPlace.display();
         Scanner ks = KeyboardScanner.getKeyBoardScanner();
-        System.out.println("What is thy bidding?");
+        System.out.println(String.format("What is thy bidding, %s?", c.name));
         String line = ks.nextLine();
-        String args[] = line.split(" ");
-        return new Move(args[0], Arrays.copyOfRange(args, 1, args.length - 1));
+        String action = line.split(" ")[0];
+        String args = line.replaceAll(action, "").trim();
+        return new Move(action, args);
     }
 }

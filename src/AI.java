@@ -7,17 +7,29 @@ public class AI implements DecisionMaker {
         int move = new Random().nextInt(4);
         switch (move){
             case 0:
-                String[] arts = {c.getRandomArtifact()};
-                return new Move("USE", arts);
+                try {
+                    Artifact art = c.getRandomArtifact();
+                    return new Move("USE", art.name());
+                } catch (NullPointerException e){
+                    return new Move("USE", "");
+                }
             case 1:
-                String[] inv = {p.getRandomArtifact()};
-                return new Move("GET", inv);
+                try {
+                    Artifact inv = p.getRandomArtifact();
+                    return new Move("GET", inv.name());
+                } catch (NullPointerException e){
+                    return new Move("GET", "");
+                }
             case 2:
-                String[] trash = {c.getRandomArtifact()};
-                return new Move("DROP", trash);
+                try {
+                    Artifact trash = c.getRandomArtifact();
+                    return new Move("DROP", trash.name());
+                } catch (NullPointerException e){
+                    return new Move("DROP", "");
+                }
             case 3:
                 default:
-                    String[] dir = {p.getRandomDirection()};
+                    String dir = p.getRandomDirection();
                 return new Move("GO", dir);
         }
     }

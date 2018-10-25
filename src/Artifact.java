@@ -52,7 +52,7 @@ public class Artifact {
     public void use(Character c, Place p){}
 
     public boolean match(String s){
-        return name.matches(s);
+        return name.matches("(?i)" + s);
     }
 
     public void print(){
@@ -69,8 +69,15 @@ public class Artifact {
     }
 
     public void display(){
-        System.out.println(name);
+        System.out.println("<" + name + ">");
         System.out.println(description);
     }
 
+    public int mobility() {
+        return mobility;
+    }
+
+    public int getKeyPattern() {
+        return keyPattern;
+    }
 }

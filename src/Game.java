@@ -23,7 +23,7 @@ public class Game {
 
         // Make exit and nowhere
         Place nowhere = new Place(0, "Nowhere", "There's an abundance of nothing.");
-        Place exit = new Place(1, "Exit", "This is an exit.");
+        Place exit = new Place(1, "Exit", "This is the exit!");
 
         // Get number of directions
         line = CleanLineScanner.getCleanLine(sc);
@@ -35,13 +35,29 @@ public class Game {
         }
 
         // Get number of characters
-        line = CleanLineScanner.getCleanLine(sc);
-        int numChars = CleanLineScanner.extractInt(line);
+        int numChars;
+        if (version >= 40) {
 
-        // Create characters
-        for (int i =0 ; i < numChars; i++){
-            Character c = CharacterFactory.makeCharacter(sc, version);
+            line = CleanLineScanner.getCleanLine(sc);
+            numChars = CleanLineScanner.extractInt(line);
+
+            // Create characters
+            for (int i = 0; i < numChars; i++){
+                Character c = CharacterFactory.makeCharacter(sc, version);
+            }
+        } else {
+            Scanner ks = KeyboardScanner.getKeyBoardScanner();
+            System.out.println("How many players would you like?");
+            numChars = CleanLineScanner.extractInt(ks.nextLine());
+
+            for (int i = 0; i < numChars; i++){
+                System.out.println(String.format("What is Player %d's name?", (i+1)));
+                String name = ks.nextLine();
+                Player p = new Player(i, name, "A hero named " + name + ".", Place.firstPlace);
+            }
         }
+
+
 
         // Get number of artifacts
         line = CleanLineScanner.getCleanLine(sc);
@@ -57,13 +73,18 @@ public class Game {
     }
 
     public void play(){
-        System.out.println(String.format("Welcome to %s", name));
-//        for (Character c : Character.characters.values()){
-//            if (c.makeMove()) {
-//                return;
-//            }
-//        }
-
-        Character.characters.get(42).makeMove();
+        System.out.println(String.format("Welcome to %s.\n", name));
+        do {
+            for (Character c : Character.characters.values()){
+                if (c instanceof Player){
+                    System.out.println(String.format("%s's turn.", c.name()));
+                }
+                if (c.makeMove()){
+                    return;
+                }
+            }
+        } while (true);
     }
+
+
 }
