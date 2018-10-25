@@ -1,3 +1,14 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The place class acts as storage for all the different
+components of the game. At any time, a place can have
+filled a collection of characters, artifacts, and directions.
+The interoperability between these different parts of the game
+all depend on location which is represented by the Place class.
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -48,14 +59,17 @@ public class Place {
         places.put(ID, this);
     }
 
+    // Retrieve a place by its ID number from the static collection of places
     public static Place getPlaceByID(int ID){
         return places.get(ID);
     }
 
+    // Add a direction to this Place
     public void addDirection(Direction d){
         directions.add(d);
     }
 
+    // Add an artifact to this Place
     public void addArtifact(Artifact a){
         try {
             artifacts.add(a);
@@ -64,13 +78,14 @@ public class Place {
         }
     }
 
+    // Remove an artifact given its name
     public Artifact removeArtifactByName(String name){
         for (Artifact a : artifacts){
             if (a.match(name)){
                 if (a.mobility() > -1) {
                     artifacts.remove(a);
                     return a;
-                } else {
+                } else { // Will not pick up chests or other super-heavy artifacts
                     System.out.println("It won't budge!");
                 }
             }
@@ -78,6 +93,7 @@ public class Place {
         return null;
     }
 
+    // Returns a random artifact in the place
     public Artifact getRandomArtifact(){
         try {
             Artifact a;
@@ -90,20 +106,24 @@ public class Place {
         }
     }
 
+    // Adda character to this place
     public void addCharacter(Character c){
         characters.add(c);
     }
 
+    // Remove a character from this place
     public void removeCharacter(Character c){
         characters.remove(c);
     }
 
+    // Attempt to use a key on all the directions in this place
     public void useKey(Artifact a, Character c){
         for (Direction d : directions){
             d.useKey(a, c);
         }
     }
 
+    // Attempt to follow a direction. If it's locked, return the current place
     public Place followDirection(String s, Character c){
         for (Direction d : directions) {
             if (d.match(s)) {
@@ -117,12 +137,14 @@ public class Place {
         return this;
     }
 
+    // Prints debug information about all places
     public static void printAll(){
         for (Place p : places.values()){
             p.print();
         }
     }
 
+    // Prints debug information about this particular place
     public void print(){
         System.out.println(String.format("ID: %d", ID));
         System.out.println(String.format("Name: %s", name));
@@ -141,12 +163,13 @@ public class Place {
         }
     }
 
+    // Provides use with information about the place
     public void display(){
         System.out.println(name);
         System.out.println(description);
         if (artifacts.size() < 1){
             System.out.println("You see no significant artifacts.");
-        } else {
+        } else { // Shows the artifacts in the place
             System.out.println("Items you see: ");
             for (Artifact a : artifacts){
                 a.display();
@@ -154,10 +177,12 @@ public class Place {
         }
     }
 
+    // Checks to see whether this place is an exit
     public boolean isExit(){
         return ID == 1;
     }
 
+    // Returns a random direction within this place
     public String getRandomDirection() {
         try {
             Direction d = (Direction) directions.toArray()[new Random().nextInt(directions.size())];

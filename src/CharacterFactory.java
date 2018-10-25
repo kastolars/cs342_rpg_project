@@ -1,3 +1,13 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The character factory is follows the design pattern of a Factory.
+The scanner is passed here and extracts all the information
+to construct a character. Depending on if the character is a
+NPC or a Player, it will build one versus the other.
+ */
+
 import java.util.Scanner;
 
 public class CharacterFactory {
@@ -23,6 +33,7 @@ public class CharacterFactory {
             description += CleanLineScanner.getCleanLine(sc) + "\n";
         }
 
+        // Checks to see what sort of Character is being produced
         if (charType.matches("PLAYER")) {
             return new Player(ID, name, description, placeID);
         } else {

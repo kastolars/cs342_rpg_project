@@ -1,4 +1,13 @@
-import java.util.Arrays;
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The move class creates a payload consisting of a
+type and an argument. These are then returned to
+the character to be executed with move logic.
+There are 8 supported moves, only half of which
+an NPC can do.
+ */
 
 public class Move {
     private MoveType type;

@@ -1,4 +1,11 @@
-import java.util.Scanner;
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+Non-player character extension of Character class.
+Defines its own version of handling go to prevent it
+from going to the exit.
+ */
 
 public class NPC extends Character {
 

@@ -1,3 +1,13 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The direction basically represents a portal
+between two locations. Directions can be locked
+and will require a key on occasion to unlock them.
+ */
+
+
 import java.util.Scanner;
 
 import static java.lang.Math.abs;
@@ -10,6 +20,7 @@ public class Direction {
     private boolean locked;
     private int lockPattern;
 
+    // Construct the Direction with the scanner
     public Direction(Scanner sc, int version){
         String line = CleanLineScanner.getCleanLine(sc);
         String[] arr = line.split("\\s+"); // Will contain split up clean line
@@ -24,11 +35,12 @@ public class Direction {
         Place.getPlaceByID(sourceID).addDirection(this);
     }
 
+    // Use a key provided on the direction
     public void useKey(Artifact a, Character c){
         if (a.getKeyPattern() == lockPattern){
-            locked = !locked;
+            locked = !locked; // if the key fits, the direction is unlocked
             if (c instanceof  Player){
-                System.out.println("Key works!");
+                System.out.println("Key works!"); // only print if character is a player
             }
         } else {
             if ( c instanceof Player){
@@ -37,6 +49,7 @@ public class Direction {
         }
     }
 
+    // Attempt to follow the direction. If its locked, a custom exception is thrown
     public Place follow(Character c) throws LockedDirectionException {
         if (locked) {
             throw new LockedDirectionException("Door is locked!", c);
@@ -45,6 +58,7 @@ public class Direction {
         }
     }
 
+    // Prints all debug information associated with the direction
     public void print(){
         System.out.println(String.format("ID: %d", ID));
         System.out.println(String.format("Type: %s", dir.toString()));
@@ -56,10 +70,12 @@ public class Direction {
         System.out.println(String.format("Lock Pattern: %d", lockPattern));
     }
 
+    // Calls the enum class' match function
     public boolean match(String s){
         return dir.match(s);
     }
 
+    // Enum class that governs the naming of the direction
     private enum DirType{
         NONE("None", "None"),
         N("North", "N"),
@@ -89,19 +105,23 @@ public class Direction {
             this.abbreviation = abbreviation;
         }
 
+        // Returns the direction's name
         public String toString(){
             return text;
         }
 
+        // Checks if the direction matches the string given
         private boolean match(String s) {
             return s.matches("(?i)" + text + "|" + abbreviation);
         }
     }
 
+    // Calls the enum class' toString function
     public String getDir() {
         return dir.toString();
     }
 
+    // Custom exception prints out error message if character is a player
     public class LockedDirectionException extends Throwable {
         public LockedDirectionException(String s, Character c) {
             if ( c instanceof Player){

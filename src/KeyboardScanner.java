@@ -1,3 +1,12 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+Singleton design pattern which has a private
+Scanner. Reads in input from player.
+ */
+
+
 import java.util.Scanner;
 
 public class KeyboardScanner {

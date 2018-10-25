@@ -1,3 +1,16 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+Main file. The program can either take in a file as an
+environment variable or can prompt the Player for a data file.
+Game Tester will then attempt to construct the game given the
+file and its contents.
+If the user enters quit, it will quit the game.
+If successful, it will run the Game class play loop.
+ */
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

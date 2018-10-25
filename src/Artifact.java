@@ -1,3 +1,13 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The artifact class is responsible for making and using
+all the various items found throughout the game.
+Some artifacts are keys, some are immovable.
+Keys have keypatterns that can unlock the right door.
+ */
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -51,10 +61,12 @@ public class Artifact {
 
     public void use(Character c, Place p){}
 
+    // Checks to see if the name matches the string given
     public boolean match(String s){
         return name.matches("(?i)" + s);
     }
 
+    // Prints artifact information
     public void print(){
         System.out.println(String.format("ID: %d", ID));
         System.out.println(String.format("Name: %s", name));
@@ -64,19 +76,23 @@ public class Artifact {
         System.out.println(String.format("KeyPattern: %d", keyPattern));
     }
 
+    // Returns the name of the artifact
     public String name(){
         return name;
     }
 
+    // Displays information for the player
     public void display(){
         System.out.println("<" + name + ">");
         System.out.println(description);
     }
 
+    // Returns the movability of the item
     public int mobility() {
         return mobility;
     }
 
+    // Returns the keypattern of the key
     public int getKeyPattern() {
         return keyPattern;
     }

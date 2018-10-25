@@ -1,3 +1,9 @@
+/*
+Author: Karol Stolarski
+netID: kstola2
+ */
+
+
 import java.util.Scanner;
 
 public class Game {
@@ -76,14 +82,15 @@ public class Game {
         System.out.println(String.format("Welcome to %s.\n", name));
         do {
             for (Character c : Character.characters.values()){
-                if (c instanceof Player){
+                if (c instanceof Player){ // only prints if Character is a player
                     System.out.println(String.format("%s's turn.", c.name()));
                 }
-                if (c.makeMove()){
+                if (c.makeMove()){ // if the Player has reached the exit we end the game.
                     return;
                 }
             }
-        } while (true);
+        } while (Character.characters.size() > 0);
+        System.out.println("Exiting game...");
     }
 
 

@@ -1,4 +1,12 @@
-import java.util.Arrays;
+/*
+Author: Karol Stolarski
+netID: kstola2
+
+The user interface uses the keyboard scanner
+to read in input from the Player then interprets it
+as a command to be executed.
+ */
+
 import java.util.Scanner;
 
 public class UI implements DecisionMaker {
